@@ -1,0 +1,119 @@
+{% extends "admin/base.html" %}
+{% load notifications %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block usertools %}
+{{ block.super }}
+<style>
+.notifications{
+    position: relative;
+    {#background-color: #ecf2f6;#}
+}
+.notifications .not-read{
+    background-color: red;
+    height: 8px;
+    width: 8px;
+    border-radius: 4px;
+    position: absolute;
+    right: 220px;
+    top: 12px;
+}
+.notifications-trigger{
+    float: right;
+    cursor: pointer;
+    margin-right: 215px;
+    margin-top: 11px;
+}
+.notifications-list{
+    -webkit-box-shadow: 0px 0px 2px 1px rgba(111,126,149,1);
+    -moz-box-shadow: 0px 0px 2px 1px rgba(111,126,149,1);
+    box-shadow: 0px 0px 2px 1px rgba(111,126,149,1);
+    background-color: white;
+    width: 400px;
+    right: 250px;
+    top: 15px;
+    position: absolute;
+    z-index: 1;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.notification-item{
+    padding: 5px;
+    border-bottom: 1px solid #59677e;
+}
+.notification-header{
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+.notification-network{
+    float: left;
+}
+.notification-date{
+    float: right;
+}
+body.change-list.model-namedcompliance .object-tools li{
+    display: inline-block;
+}
+</style>
+{% if request.user.is_authenticated %}
+<script type="text/javascript">
+function showNotifications() {
+  let x = document.getElementById("notifications-list");
+  let read = document.getElementById("not-read");
+  const url = '{% url 'update-notifications' %}';
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    if (read && read.style.display === "") {
+        jQuery.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                csrfmiddlewaretoken: jQuery("[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function () {
+                read.style.display = "none";
+            },
+            async:false
+        });
+        return false
+    }
+  } else {
+    x.style.display = "none";
+  }
+  return false;
+}
+</script>
+<div class="notifications">
+    {% get_notifications as notifications %}
+    <div onclick="showNotifications()" class="notifications-trigger">
+        <img style="width: 37px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAABAAAAAQBPJcTWAAAAFHRFWHRUaXRsZQBCRUxMIChVKzFGNTE0KRajwVUAAAAVdEVYdEF1dGhvcgBBbmRyZXcgTWFyY3VzZec3N4MAAAAvdEVYdFNvZnR3YXJlAGluZm8uZmlsZWZvcm1hdC5kYXRhLlVuaWNvZGVQbmdTZXJ2bGV0aAF/MAAAAEN0RVh0RGVzY3JpcHRpb24AaHR0cDovL3d3dy5maWxlZm9ybWF0LmluZm8vaW5mby91bmljb2RlLzFmNTE0L2luZGV4Lmh0bXBz3AkAAAA7dEVYdENvcHlyaWdodABodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS8yLjAvbIiSgwAABXVJREFUeNrtnH9k3Gccxx9xImpKzZmKKFMRNVEqqqqqzJyYiHCiKmJGxZypKjE1MRWqamLmmJipqFJxIqLCzMRUhfwxVXPKxFRMhDhVM+fIPm/fd9x317vtLvfj+/3e9/3i7XLJ5Z7nnh+fz+d5Ps9zzgkhhBBCCCGEEEIIIYQQQgghRBR515Q2zZu+NU2ZTqtZguErU9G0brpjypiWTAVTzpRUE3WOBdMr01k+/8A0ajpp6jPdNeU5g0SbGTb9ZRqktkwl0xs+Zk0J0+emh2qu9rNIEzVg2jPdZgeA46ZVmi7w2vS+mqy9/GE6ZfqOjrySJH0LnPsT0zU1WfvoMR3w5xXTrmmfM6FAs7XHx4/4mqyarT0MmZZN276ZkKqIpnroY67w+axpx3STfxMt4jYd9hbNVSNM0sz9xs4STfAO/UCeC8BmTN11zpa0mvVonDBtmuZaaG6wTnnBzhENzgx0xkQb3jvZghkXO3J0xO3iFM2XfEodTJt+6UA5aTp6RV//43wxcs91qDxsTM6o2WszZnrawfJGOEtEDb423epwmS+dcig1edZBc3UINiKn1PRv0+u8Pagggght01fhY+ftVXWa885LdokKkOP4IqDIruQa3yPrepBYGg2obOwKKG9SAfxHIqCyH7hyllE475DC8wDLn5EfebtBfgiwfCwQD+RHyjx2XiIpKODYi/IjZZAT7w+4DmvyI+V1QD4E9cB2/466w8sILoSgHkP0I4Nx7xCsAT4MSV2w0fhpnDsDOe59F54k0X3Tozh3CM7fLoaoPthpLrgYZxGRjLoUsjohYZWKY2cgKbQdwnohQRbL7Xjc4ZgNYb1wTAjXHY7HqTMSjPnDessJfu1GnDrkk5A580qGGQLHBjjOMyGvI84UT8ahM/AhVyNQzwsu2JRAR+ihKYjKEc41mteuBSFlLkL1HWbw0ZURFzbtXrvoHUpD8NF11+IQ3iJF+mWLQuZjzruycIYrfb8G+Te8prcF5eGeCm5gjXVLZ6BxcBVtow7/AhMxTtP2vfPOaeEk/D4XazgIgYue67TvKzSBeN0jPuaoNeopzc4O64H/waGGeQYYl+vouMusw0A3OPF1hrnJKiNvgiZhi429wYZFjuSq8w7PIU/R18I6HWMDo+Mz7ByUu80tE2y/V8utZ2p8jkiBu+R534fAbJlhA/zOWTDpGjtcAJO19x/a9f282uDgOc/Zifr96rwsov/rObIMhSPZKWmOuvf4fIyNhE4aacG2C27m4i56f5UZ1M+GayZHjkFyz/QnZ8chPzrvnmJf1Dpk2/07HfqcI7YVo+siZ16tiG2e651my4LPwPGkkivnSE7QdN2KUmf08kOcrgh7f3becRuYqpRrLhF0haN3iXb/Gkd0ntseR+0MfDfKZ6af+Blecib6WeBMj5z/2K2yHzTE8HeDkROc/n2+bqTBUDXBxppip0y5+vfIejhgxmn+llnfA/q3rCt/I8QhfZx9uy6ihyEwrQu0uUjXnqzSKJfo6B8wRP2bC8hNhqhLjMTu+hr9KjtwvIom+DfMmGm+d5amZ5kDoMDRX+IaA7+/w/9PVqkjorJv6AOXox7+YlRdpzMs0pcsslHP1jBbCARG2fj32FmPfWuMo+ghZ22GDV+rbMxQnIK5wcZ/wwE157rwq54SXFvM+UxEiSYiR9+S4QhPMdLpbUMdBvj+E/QXiyx/h/V5wZk53Q2LwaMEABfZODfZKWicZzQtRVf+xrhXvlW6f4V+qMNZtMLXPKHp23flb5wr8n03+VrMvlmWf87p3nrdozpJJ5viLBvnWmfSp7TPl4xSMD8XuEJPqCmFEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghRIj5B10MPDC+ikE5AAAAAElFTkSuQmCC" alt="" />
+        {% if notifications.1 %}
+            <div class="not-read" id="not-read"></div>
+        {% endif %}
+    </div>
+    <div class="notifications-list" id="notifications-list" style="display: none;">
+        {% for notification in notifications.0 %}
+            <div class="notification-item">
+                <div class="notification-header">
+                    <div class="notification-network">{{ notification.subject }}</div>
+                    <div class="notification-date">{{ notification.date }}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="notification-body">
+                    {% autoescape off %}
+                        {{ notification.message }}
+                    {% endautoescape %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

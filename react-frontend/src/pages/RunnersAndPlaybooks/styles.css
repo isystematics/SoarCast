@@ -1,0 +1,77 @@
+.runnerTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgray;
+}
+
+.orchestrationTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgray;
+}
+
+.executionTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgray;
+}
+
+.mappingTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgray;
+}
+
+.variableForm {
+    padding-top: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.column {
+    text-align: center;
+    font-size: 1.25em;
+}
+
+.addForm {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: lightgrey;
+}
+
+.inputRow {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-column-gap: 10em;
+    padding-top: 1%;
+}
+
+.detailsRow {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 10em;
+    padding-top: 1%;
+    padding-left: 20%;
+    font-size: 2em;
+}
+
+.label {
+    padding-left: 40%;
+    font-size: 2em;
+}
+
+.navButton {
+    padding-left: 10%;
+}
+
+.functionButton {
+    width: 75%;
+}
+
+.title {
+    text-align: center
+}
+
+
+
+

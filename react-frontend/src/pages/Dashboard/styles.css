@@ -1,0 +1,45 @@
+.configurationNotification {
+    font-size: 2em;
+}
+
+.systemStatusWrapper {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%
+}
+
+.systemStatusContainer {
+    margin: 8px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    text-align: center;
+    padding: 8px;
+    font-size: 8em;
+}
+
+.statusCaption, .statusSubheading {
+    text-align: center;
+    font-size: 2em;
+}
+
+.statusHeading {
+    text-align: center;
+}
+
+.executionAuthenticationWrapper {
+    display: grid;
+    grid-template-columns: 40% 60%
+}
+
+.executionStatusWrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.authenticationRow {
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
+.authenticationText {
+    font-size: 2em;
+}

@@ -1,0 +1,11 @@
+<uwsgi>
+  <socket>127.0.0.1:8003</socket>
+  <chdir>/app/sites/mission-control</chdir>
+  <pythonpath>/app/sites/mission-control</pythonpath>
+  <virtualenv>/app/envs/mission</virtualenv>
+  <module>mission.wsgi:application</module>
+  <processes>5</processes>
+  <logto>/var/log/uwsgi/mission.log</logto>
+  <uid>33</uid>
+  <gid>33</gid>
+</uwsgi>

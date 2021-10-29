@@ -1,0 +1,31 @@
+{% extends "admin/change_list.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{% static "mfa/qr.min.js" %}"></script>
+{% endblock %}
+{% block bodyclass %}{{ block.super }} change-list{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; Add MFA
+</div>
+{% endblock %}
+{% block content %}
+<div id="content-main">
+    <div class="module filtered" id="changelist">
+        <h2>Scan this qrcode with authenticator and press next</h2>
+        <div id="qrcode"></div>
+        <p><a href="{% url "mfa-verify" %}" class="button">Next</a></p>
+    </div>
+</div>
+<script type="text/javascript">
+    let el = document.querySelector('#qrcode');
+    let link = "{{ config_url }}";
+    let name = "Apollo";
+    let qr = new QRCode(el, {
+      text: link
+    });
+</script>
+{% endblock %}

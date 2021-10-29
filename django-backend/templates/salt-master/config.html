@@ -1,0 +1,82 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+​
+{% block extrahead %}
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<style>
+span.true{
+    display: block;
+    background-color: green;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+span.false{
+    display: block;
+    background-color: red;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+</style>
+{% endblock %}
+{% block bodyclass %}{{ block.super }} change-list{% endblock %}
+​
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+<span class="icon-arrow-right breadcrumbs-separator"></span>
+<a href="{% url 'admin:app_list' 'saltmaster' %}">{% trans 'SaltMaster' %}</a>
+&rsaquo; Execution panel
+</div>
+{% endblock %}
+{% block content %}
+<script type="text/javascript">
+let $ = django.jQuery;
+$(document).ready(function(){
+    $(".action-js").click(function(){
+        $(".action-value-js").val($(this).data('action'));
+        $(".salt-config-form-js").submit();
+    });
+});
+</script>
+<div id="content-main">
+    <div class="module filtered" id="changelist">
+        <h1>FreeForm-Config-Editor</h1>
+        <div>
+            <a class="button action-js" href="#" data-action="get-config"> Get config</a>
+            <a class="button action-js" href="#" data-action="save-config"> Save config</a>
+            <a class="button action-js" href="#" data-action="deploy-config"> Deploy config</a>
+        </div>
+        <form method="POST" action="." class="salt-config-form-js">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="" class="action-value-js">
+            <input type="hidden" name="action_id" value="{% if action_id %}{{ action_id }}{% elif 'action_id' in request.GET  %}{{ request.GET.action_id }}{% endif %}" class="">
+            <input type="hidden" name="file_name" value="{{ file_name|default:"" }}" class="">
+            <p>
+                <select name="group">
+                    <option selected disabled value="">Select Group</option>
+                </select>
+                <select name="master">
+                    <option selected disabled value="">Select Master</option>
+                    {% for master in master_list %}
+                        <option value="{{ master.id }}">{{ master.name }}</option>
+                    {% endfor %}
+                </select>
+                <select name="host_name">
+                    <option selected disabled value="">Select Sensor</option>
+                    {% for sensor in sensors %}
+                        <option value="{{ sensor.salt_hostname }}">{{ sensors.name }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <textarea name="config" rows="40"  style="width: 100%">{{ config }}</textarea>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+

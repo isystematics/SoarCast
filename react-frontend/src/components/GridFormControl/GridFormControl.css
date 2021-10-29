@@ -1,0 +1,146 @@
+.tabPositioner{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+.formPositioner{
+  position: absolute;
+  display: flex;
+}
+.overlayed{
+    background-color: rgba(248, 248, 248, 0.6);
+}
+.actionsContainer{
+    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.grid{
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.tabs{
+  margin-top: 20px;
+}
+.fullWidth{
+  width: 100%;
+}
+.tabsContent{
+  padding: 0 30px 30px 30px;
+}
+.onlyFormContainer{
+  margin-top: 16px;
+  margin: auto;
+    min-width: 600px;
+    min-height: 400px;
+    height: fit-content;
+    border-radius: 10px;
+    font-size: var(--font-medium);
+    color: var(--bs-dark);
+    background-color: var(--bs-white);
+}
+.wholeFormContainer{
+    padding: 30px;
+    border-radius: 10px;
+    min-width: 600px;
+    min-height: 400px;
+    overflow: hidden;
+    z-index: 10;
+    margin: auto;
+    font-size: var(--font-medium);
+    background-color: var(--bs-white);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    
+    color: var(--bs-dark);
+}
+.borderTab{
+  border: 3px solid var(--bs-primary);
+}
+.wholeFormContainer .buttonContainer{
+    margin-top: auto;
+}
+.wholeFormContainer #SoarcastGrid{
+  margin-top: 30px;
+}
+.formItem{
+    margin: 8px 0 16px 0;
+    max-width: fit-content;
+}
+.checkBox{
+  width: 15px;
+  height: 15px;
+  margin: auto 12px;
+}
+.inputError{
+  color: var(--bs-danger);
+}
+.inputLabel{
+  margin: auto 12px;
+  font-size: 15px;
+}
+.input{
+    min-width: 200px !important;
+    width: 100%;
+}
+.dropdownInput{
+    min-width: 200px;
+}
+.formTitle{
+    font-size: 30px;
+}
+.formLabel{
+    font-size: 16px;
+    color: var(--bs-primary);
+}
+.flex.flexColumn button{
+    margin-top: 8px;
+}
+.grow{
+    animation: grow .26s forwards;
+}
+.jtabClosePositioner{
+  display: flex;
+  width: 100%;
+  
+}
+.jtabClosePositioner .jclose{
+  margin: 4px 4px 0 auto;
+  
+}
+.jclosePositioner{
+    z-index: 10;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+.jclose{
+  padding: 6px 12px ;
+  border-radius: 6px;
+  text-align: center;
+}
+.jclose:hover{
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(146, 146, 146);
+  animation: lift .26s forwards;
+  background-color: var(--bs-danger);
+}
+  @keyframes lift {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.04);
+    }
+  }
+@keyframes grow {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }

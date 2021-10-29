@@ -1,0 +1,17 @@
+.masterTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgrey;
+}
+
+.minionTableHeader {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: lightgray;
+}
+
+.minionTableRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr .5fr .5fr;
+    background-color: lightgray;
+}

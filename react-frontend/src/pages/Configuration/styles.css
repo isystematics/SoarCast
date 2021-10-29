@@ -1,0 +1,39 @@
+h1 {
+    text-align: center;
+    padding-top: 1%;
+}
+
+.inputRow {
+    display: grid;
+    grid-template-columns: 20% 40%;
+    grid-column-gap: 10em;
+    padding-top: 1%;
+}
+
+.label {
+    padding-left: 40%;
+    font-size: 2em;
+}
+
+.saveButton {
+    margin: auto;
+}
+
+.progressHeader {
+    padding-top: 5%;
+    padding-bottom: 3%;
+}
+
+.progressRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 2em;
+    text-align: center;
+}
+
+.image {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 50%;
+}

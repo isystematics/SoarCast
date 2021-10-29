@@ -1,0 +1,9 @@
+.notificationsTable {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: lightgray;
+}
+.gridElementContainer{
+    width: 100%;
+    height: 100%;
+}

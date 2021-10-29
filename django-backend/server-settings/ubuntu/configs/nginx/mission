@@ -1,0 +1,21 @@
+upstream iron_django {
+        server 127.0.0.1:8003;
+}
+
+server {
+        listen 80;
+        server_name <>;
+
+        location /static {
+                alias /app/sites/mission-control/static;
+        }
+
+        location /media {
+                alias /app/sites/mission-control/media;
+        }
+
+        location / {
+                uwsgi_pass iron_django;
+                include /etc/nginx/uwsgi_params;
+        }
+}

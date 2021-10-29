@@ -1,0 +1,12 @@
+[Unit]
+Description=uWSGI Emperor
+After=syslog.target
+
+[Service]
+ExecStart=/app/envs/mission/bin/uwsgi -M -T -p 7 --uid 33 --gid 33 --emperor "/etc/uwsgi/vassals/*.xml" --logto /var/log/uwsgi/history.log --touch-reload /app/sites/reload
+RuntimeDirectory=uwsgi
+#Restart=always
+KillSignal=SIGQUIT
+
+[Install]
+WantedBy=multi-user.target

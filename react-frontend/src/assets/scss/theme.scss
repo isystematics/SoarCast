@@ -1,0 +1,154 @@
+@import "./icons.scss";
+
+
+// Dark Theme
+// @import "./bootstrap-dark.scss";
+// @import "./app-dark.scss";
+
+// Light Theme
+@import "./bootstrap.scss";
+@import "./app.scss";
+
+// // RTL Mode
+// @import "./rtl/bootstrap-rtl";
+// @import "./rtl/components-rtl";
+// @import "./rtl/float-rtl";
+// @import "./rtl/general-rtl";
+// @import "./rtl/pages-rtl";
+// @import "./rtl/plugins-rtl";
+// @import "./rtl/spacing-rtl";
+// @import "./rtl/structure-rtl";
+// @import "./rtl/text-rtl";
+
+#sidebar-menu {
+  ul {
+    li {
+      a {
+        i {
+          min-width: 2rem;
+        }
+      }
+    }
+  }
+}
+.noti-icon .badge {
+  left: 23px;
+}
+.dataTables_filter,
+.dataTables_paginate {
+  float: right;
+}
+.rdw-editor-main {
+  border: 1px solid $gray-300;
+  height: 239px;
+}
+.dz-message {
+  text-align: center;
+  padding: 30px;
+}
+// kanban board
+.react-kanban-column{
+  height: 100%;
+  min-height: 28px;
+  display: inline-block;
+  padding: 15px;
+  border-radius: 2px;
+  background-color: rgb(238, 238, 238);
+  margin: 5px;
+  vertical-align: top;
+}
+.fcYNFc,
+.sc-AxmLO.gmtmqV {
+  background-color: $card-bg !important;
+  margin: 0 20px 0 0 !important;
+}
+.task-box {
+  border: 1px solid $border-color;
+}
+.react-datepicker-wrapper {
+  width: 100% !important;
+}
+.ReactModal__Overlay {
+  z-index: 1001 !important;
+}
+.external-event {
+  &:hover {
+    cursor: pointer;
+  }
+}
+a:hover {
+  cursor: pointer;
+}
+.rating-container {
+  background-color: transparent !important;
+}
+.input-group-append {
+  z-index: 0;
+}
+.input-color {
+  color: $input-color !important;
+}
+.sketch-picker {
+  position: absolute;
+  z-index: 1;
+}
+.rangeslider__fill {
+  background-color: $primary !important;
+}
+
+// .form-check-input {
+//   position: absolute !important;
+//   left: 0 !important;
+//   z-index: -1 !important;
+//   width: 1rem !important;
+//   height: 1.10938rem !important;
+//   opacity: 0 !important;
+// }
+
+//dropdown
+.dropdown-menu.dropdown-menu-right {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.bs-select select {
+  width: auto !important;
+}
+
+.close{
+  background: transparent;
+  border: 0;
+  font-size: 10px;
+  padding: 1.35rem 1.25rem;
+  background: transparent escape-svg($btn-close-bg-dark) center / $btn-close-width auto no-repeat;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: .5;
+  width: 1em;
+  height: 1em;
+  z-index: 2;
+  span {
+    display: none;
+  }
+}
+
+.card-columns {
+  column-count: 3;
+  grid-column-gap: 1.25rem;
+  -webkit-column-gap: 1.25rem;
+  grid-column-gap: 24px;
+  column-gap: 24px;
+  orphans: 1;
+  widows: 1;
+}
+.unselectable{
+  pointer-events: none;
+}
+.flex{
+  display:flex;
+  
+}
+.flexColumn{
+  flex-direction: column;
+}

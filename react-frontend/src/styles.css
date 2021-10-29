@@ -1,0 +1,50 @@
+.detailContainer{
+  margin-top: 32px;
+}
+.fullContainer{
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100vh;
+  left: 0;
+  display: flex;
+  position: fixed;
+  background-color: rgba(248, 248, 248, 0.4);
+}
+.loadingPositioner{
+  margin: auto auto auto 40%;
+}
+.detail{
+  font-size: 20px;
+  display: flex;
+}
+.detailTitle{
+  min-width: 250px;
+  margin-bottom: 16px;
+}
+.buttonContainer{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.buttonContainer button{
+    margin-right: 8px;
+}
+.fixedBottom{
+  position: fixed;
+  bottom: 20px;
+}
+.hidden{
+  visibility: hidden;
+  display: none;
+}
+.grow{
+    animation: grow .26s forwards ease-out;
+}
+@keyframes grow {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
