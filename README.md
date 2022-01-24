@@ -3,7 +3,7 @@ Security Orchestration Automation Response + Continuous Application Security Tes
 
 ## Introduction to SoarCast
 
-[![Slack](https://kubearmor.herokuapp.com/badge.svg)](https://kubearmor.herokuapp.com)
+[![Slack](https://kubearmor.herokuapp.com/badge.svg)](https://slack-auto-invite-soarcast.herokuapp.com/)
 [![Discussions](https://img.shields.io/badge/Got%20Questions%3F-Chat-Violet)](https://github.com/isystematics/SoarCast/discussions)
 
 SoarCast is an orchestration and continuous execution platform whose name is derived by concatenation of two product categories it emulates.  While SoarCast can be used for any purpose it was designed to perform Continuous Application Security Testing (CAST) and  Security Orchestration Automation and Response (SOAR).
@@ -57,5 +57,5 @@ Playbooks allow modules to be chained together to pass output from one module in
 ### Monthly Scrum
 
 * When: Every 3rd Wednesday 1-2 pm UTC−05:00
-* Where: [Zoom Link](https://us02web.zoom.us/j/5013008459?pwd=LzhGdk42T05QZEM5T2pmYzhYUEZuQT09)
+* Where: [Zoom Link](https://zoom.us/j/95989777670?pwd=Rmx5KzgzdkVNMGI2MS9qQjZTN1dEZz09)
 * Minutes: [Document](https://docs.google.com/document/d/e/2PACX-1vTXzCB5uwlCDCVcoHkIhaBOV6SzFBXU7YizG5ONWcyUoZez4qAGAn2REzGc1x1KML5KTce0lyk80upu/pub)
