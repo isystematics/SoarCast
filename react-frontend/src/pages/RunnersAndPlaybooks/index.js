@@ -1,5 +1,4 @@
 import React from "react"
-import MetaTags from 'react-meta-tags';
 import TabBar from './tabBar.js'
 
 import {
@@ -16,9 +15,7 @@ function Runners() {
     return (
       <React.Fragment>
         <div className="page-content">
-          <MetaTags>
             <title>Soarcast | Runners and Playbooks</title>
-          </MetaTags>
           <Container fluid>
             {/* Render Breadcrumb */}
             <Breadcrumbs

@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
-import MetaTags from 'react-meta-tags';
 import {
   Container,
 } from "reactstrap"
@@ -238,9 +237,7 @@ class Dashboard extends Component {
     return (
       <React.Fragment>
         <div className="page-content">
-          <MetaTags>
             <title>Soarcast | Dashboard</title>
-          </MetaTags>
           <Container fluid>
             {/* Render Breadcrumb */}
             <Breadcrumbs

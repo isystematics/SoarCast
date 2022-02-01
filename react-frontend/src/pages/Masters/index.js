@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import MetaTags from 'react-meta-tags';
 import Button from '@material-ui/core/Button';
 import { Alert } from "react-bootstrap"
 import boolGridElement from "../../components/Common/boolGridElement"

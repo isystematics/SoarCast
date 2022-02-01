@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import MetaTags from 'react-meta-tags';
 import TabBar from './tabBar.js'
 import Check from './check.svg'
 import {
@@ -15,9 +14,7 @@ class Configuration extends Component {
     return (
       <React.Fragment>
         <div className="page-content">
-          <MetaTags>
             <title>Soarcast | Configuration</title>
-          </MetaTags>
           <Container fluid>
             {/* Render Breadcrumb */}
             <Breadcrumbs
