@@ -3,7 +3,7 @@ name: Build and Upload to S3
 on:
  push:
    branches:
-     - Development
+     - main
 
 jobs:
  Deploy:
@@ -42,5 +42,5 @@ jobs:
           DISTRIBUTION: "E3N0IFO37M2UEH"
           PATHS: "/*"
           AWS_REGION: "us-east-1"
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEVELOPMENT_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEVELOPMENT_AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
