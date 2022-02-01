@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
+import MetaTags from 'react-meta-tags';
 import Button from '@material-ui/core/Button';
 import './styles.css'
 import LoadingOverlay from "components/LoadingOverlay/LoadingOverlay";
@@ -67,7 +68,9 @@ const Notifications = () => {
   return (
     <React.Fragment>
       <div className="page-content">
+        <MetaTags>
           <title>Soarcast | Notifications</title>
+        </MetaTags>
         <Container fluid>
           <Breadcrumbs
             title="Soarcast"

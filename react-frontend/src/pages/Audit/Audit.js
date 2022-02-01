@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import MetaTags from 'react-meta-tags';
 import {
   Container,
 } from "reactstrap"
@@ -33,7 +34,9 @@ const Audit = () => {
     return (
         <React.Fragment>
             <div className="page-content">
+                <MetaTags>
                 <title>Soarcast | Audit History</title>
+                </MetaTags>
                 <Container fluid>
                 <Breadcrumbs
                     title="Soarcast"

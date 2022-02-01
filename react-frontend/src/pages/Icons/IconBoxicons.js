@@ -1,3 +1,4 @@
+import MetaTags from 'react-meta-tags';
 import React, { Component } from "react"
 
 import { Card, CardBody, CardTitle, Col, Container, Row } from "reactstrap"
@@ -60,7 +61,9 @@ class IconBoxicons extends Component {
     return (
       <React.Fragment>
         <div className="page-content">
+        <MetaTags>
             <title>Boxicons | Skote - Responsive Bootstrap 5 Admin Dashboard</title>
+          </MetaTags>
           <Container fluid={true}>
             <Breadcrumbs title="Icons" breadcrumbItem="Boxicons" />
             <Row>
