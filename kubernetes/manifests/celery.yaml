@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery
+  namespace: soarcast
+spec:
+  selector:
+    matchLabels:
+      app: celery
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: celery
+    spec:
+      nodeSelector: 
+          type: soarcast
+      containers:
+        - command:
+            - celery
+            - -A
+            - mission
+            - worker
+            - --loglevel=INFO
+          volumeMounts:
+          - name: app-config
+            mountPath: /mnt/appconfig.json
+            subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          name: celery-worker
+          imagePullPolicy: Always
+        - command: 
+            - celery
+            - -A
+            - mission
+            - beat
+            - --loglevel=INFO
+          volumeMounts:
+          - name: app-config
+            mountPath: /mnt/appconfig.json
+            subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-dev  # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          name: celery-beat
+          imagePullPolicy: Always
+      volumes:
+      - name: app-config
+        secret:
+          secretName: app-config
