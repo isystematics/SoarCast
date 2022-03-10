@@ -1,0 +1,14 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: soarcast-image-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: soarcast-image-repo
+  filterTags:
+    pattern: 'soarcast-[a-f0-9]+-(?P<ts>[0-9]+)-dev'
+    extract: '$ts'
+  policy:
+    numerical:
+      order: asc

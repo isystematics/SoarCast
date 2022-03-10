@@ -1,0 +1,11 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: soarcast-image-repo
+  namespace: flux-system
+spec:
+  secretRef:
+    name: ecr-credentials
+  image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics
+  interval: 1m0s
