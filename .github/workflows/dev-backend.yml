@@ -3,6 +3,7 @@ on:
   push:
     paths-ignore:
      - 'kubernetes/**'
+     - 'react-frontend/**'
     branches:         # array of glob patterns matching against refs/heads. Optional; defaults to all
     - development         # triggers on pushes that contain changes in master
 
@@ -21,6 +22,9 @@ jobs:
   build-and-push:
     name: Build and deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: django-backend
     steps:
 
     - name: Checkout
@@ -53,3 +57,4 @@ jobs:
       run: |
         # Push image to AWS ECR
         docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE
+        
