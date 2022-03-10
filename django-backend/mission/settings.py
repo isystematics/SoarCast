@@ -15,13 +15,16 @@ from pathlib import Path
 import sys
 import json
 
+path = '/mnt/appconfig.json'
+if os.path.exists(path):
+    with open(path) as f:
+        app_config = json.load(f)
+        for key in app_config:
+            os.environ[key] = str(app_config[key])
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-soarcast_config = json.loads(os.environ.get('SoarcastConfig'))
-
-for key in soarcast_config:
-    os.environ[key] = soarcast_config[key]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
