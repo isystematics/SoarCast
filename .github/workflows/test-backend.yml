@@ -7,7 +7,7 @@ on:
     branches:         # array of glob patterns matching against refs/heads. Optional; defaults to all
     - test         # triggers on pushes that contain changes in master
 
-name: Build and Push to ECR
+name: SoarCast Test Backend Pipeline
 
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
 env:
