@@ -14,8 +14,8 @@ spec:
       labels:
         app: celery
     spec:
-      nodeSelector: 
-          type: soarcast
+      nodeSelector:
+        type: soarcast
       containers:
         - command:
             - celery
@@ -24,26 +24,26 @@ spec:
             - worker
             - --loglevel=INFO
           volumeMounts:
-          - name: app-config
-            mountPath: /mnt/appconfig.json
-            subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+            - name: app-config
+              mountPath: /mnt/appconfig.json
+              subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-41183ac32847734b98a338abfe2d85ffb9715fa0-3-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           name: celery-worker
           imagePullPolicy: Always
-        - command: 
+        - command:
             - celery
             - -A
             - mission
             - beat
             - --loglevel=INFO
           volumeMounts:
-          - name: app-config
-            mountPath: /mnt/appconfig.json
-            subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-dev  # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+            - name: app-config
+              mountPath: /mnt/appconfig.json
+              subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-41183ac32847734b98a338abfe2d85ffb9715fa0-3-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           name: celery-beat
           imagePullPolicy: Always
       volumes:
-      - name: app-config
-        secret:
-          secretName: app-config
+        - name: app-config
+          secret:
+            secretName: app-config

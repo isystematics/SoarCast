@@ -14,25 +14,25 @@ spec:
       labels:
         app: uwsgi
     spec:
-      nodeSelector: 
+      nodeSelector:
         type: soarcast
       containers:
         - volumeMounts:
-          - name: staticfiles
-            mountPath: /app/staticfiles
-          - name: app-config
-            mountPath: /mnt/appconfig.json
-            subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+            - name: staticfiles
+              mountPath: /app/staticfiles
+            - name: app-config
+              mountPath: /mnt/appconfig.json
+              subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-41183ac32847734b98a338abfe2d85ffb9715fa0-3-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           imagePullPolicy: Always
           name: web
           workingDir: /app
           ports:
             - containerPort: 8000
       volumes:
-      - name: staticfiles
-        persistentVolumeClaim:
-          claimName: soarcast-staticfiles
-      - name: app-config
-        secret:
-          secretName: app-config
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: soarcast-staticfiles
+        - name: app-config
+          secret:
+            secretName: app-config
