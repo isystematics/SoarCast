@@ -218,6 +218,11 @@ class VariableForm(forms.ModelForm):
                 json.loads(value)
             except JSONDecodeError as e:
                 self._errors["value"] = self.error_class([e])
+        elif value and self.cleaned_data.get('variable_type', 1) == Variable.BOOL:
+            try:
+                bool(value)
+            except ValueError:
+                self._errors["value"] = self.error_class(['bool variable accept only'])
         # value = self.cleaned_data['value']
         return self.cleaned_data
 
