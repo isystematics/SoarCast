@@ -1,0 +1,28 @@
+name: SoarCast Backend Security Pipeline
+
+on:
+ push:
+   branches:
+     - Security
+   paths-ignore:
+     - 'kubernetes/**'
+     - 'react-frontend/**'
+jobs:
+ Deploy:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout
+       uses: actions/checkout@v2
+
+     - name: Configure AWS Credentials
+       uses: aws-actions/configure-aws-credentials@v1
+       with:
+         aws-access-key-id: ${{ secrets.SECURITY_AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.SECURITY_AWS_SECRET_ACCESS_KEY }}
+         aws-region: us-east-1
+         
+     - name: Zip Up Project
+       run: zip -r SoarCastFrontend-${{ github.sha }}-${{ github.run_number }}.zip .
+       
+     - name: Upload Zip to S3 bucket
+       run: aws s3 cp ./SoarCastFrontend-${{ github.sha }}-${{ github.run_number }}.zip s3://cb4c23d1-code
