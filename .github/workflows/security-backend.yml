@@ -22,7 +22,7 @@ jobs:
          aws-region: us-east-1
          
      - name: Zip Up Project
-       run: zip -r SoarCastFrontend-${{ github.sha }}-${{ github.run_number }}.zip .
+       run: zip -r SoarCastBackend-${{ github.sha }}-${{ github.run_number }}.zip .
        
      - name: Upload Zip to S3 bucket
-       run: aws s3 cp ./SoarCastFrontend-${{ github.sha }}-${{ github.run_number }}.zip s3://cb4c23d1-code
+       run: aws s3 cp ./SoarCastBackend-${{ github.sha }}-${{ github.run_number }}.zip s3://cb4c23d1-code
