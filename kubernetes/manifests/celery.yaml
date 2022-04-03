@@ -27,7 +27,7 @@ spec:
             - name: app-config
               mountPath: /mnt/appconfig.json
               subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-3c7b287d503b194bf5fb75c8cdffcb7025ef9874-19-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-4f297494dc252844331ff22bb4705fe6456f1de9-6-test # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           name: celery-worker
           imagePullPolicy: Always
         - command:
@@ -40,7 +40,7 @@ spec:
             - name: app-config
               mountPath: /mnt/appconfig.json
               subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-3c7b287d503b194bf5fb75c8cdffcb7025ef9874-19-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-4f297494dc252844331ff22bb4705fe6456f1de9-6-test # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           name: celery-beat
           imagePullPolicy: Always
       volumes:
