@@ -8,14 +8,14 @@ spec:
   git:
     checkout:
       ref:
-        branch: development
+        branch: test
     commit:
       author:
         email: fluxcdbot@users.noreply.github.com
         name: fluxcdbot
       messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
     push:
-      branch: development
+      branch: test
   interval: 1m0s
   sourceRef:
     kind: GitRepository
