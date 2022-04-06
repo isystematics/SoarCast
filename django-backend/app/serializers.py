@@ -1,4 +1,6 @@
+import json
 import re
+from json import JSONDecodeError
 
 import redis
 from croniter import croniter, CroniterBadCronError
@@ -76,6 +78,24 @@ class VariableSerializer(BaseNestedModelSerializer, serializers.ModelSerializer)
     class Meta:
         model = Variable
         fields = ('id', 'name', 'hvac_path', 'encrypted', 'variable_type', 'has_value', 'value', 'variable_set')
+
+    bool_values = ["True", "true", "False", "false"]
+
+    def validate(self, attrs):
+        value = attrs.get("value")
+        if value and attrs.get('variable_type', 1) == Variable.INT:
+            try:
+                int(value)
+            except ValueError:
+                raise ValidationError({"value": 'int variable accept only number values'})
+        elif value and attrs.get('variable_type', 1) == Variable.JSON:
+            try:
+                json.loads(value)
+            except JSONDecodeError as e:
+                raise ValidationError({"value": e})
+        elif value and attrs.get('variable_type', 1) == Variable.BOOL and value not in self.bool_values:
+                raise ValidationError({"value": 'allowed values: {}'.format(", ".join(self.bool_values))})
+        return attrs
 
 
 class VariableSetSerializer(BaseNestedModelSerializer, serializers.ModelSerializer):

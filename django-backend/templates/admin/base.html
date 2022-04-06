@@ -1,0 +1,12 @@
+{% extends 'admin/base.html' %}
+{% load i18n static jet_tags %}
+{% block html %}{{ block.super }}
+        <script src="{% url 'jet:jsi18n' %}"></script>
+{% endblock %}
+
+{% block blockbots %}{{ block.super }}
+
+    <script src="{% static 'admin/js/vendor/jquery/jquery.js' as url %}{{ url|jet_append_version }}"
+            type="text/javascript"></script>
+    <script src="{% static 'admin/js/jquery.init.js' as url %}{{ url|jet_append_version }}"></script>
+{% endblock %}

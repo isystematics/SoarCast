@@ -24,3 +24,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(days=365),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = BROKER_URL

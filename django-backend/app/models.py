@@ -117,11 +117,12 @@ class VariableSet(models.Model):
 
 
 class Variable(models.Model):
-    INT, STRING, JSON = range(0, 3)
+    INT, STRING, JSON, BOOL = range(0, 4)
     VARIABLES = (
         (INT, 'Integer'),
         (STRING, 'String'),
         (JSON, 'JSON'),
+        (BOOL, 'Boolean'),
     )
     variable_set = models.ForeignKey(VariableSet, on_delete=models.CASCADE, related_name='variables')
     name = models.CharField(max_length=255)
@@ -186,7 +187,7 @@ class Runner(models.Model):
         super().save(**kwargs)
         if self.schedule and update:
             self.name = self.mapping.name
-            create_or_update_periodic_task(self, 'saltmaster.tasks.execute_runner_task', '["{}",]'.format(self.id))
+            create_or_update_periodic_task(self, 'saltmaster.tasks.execute_runner_task', '["{}"]'.format(self.id))
             self.save()
         elif not self.schedule and self.celery_periodic_runner and update:
             self.celery_periodic_runner.crontab.delete()
@@ -289,7 +290,7 @@ class Playbook(models.Model):
         update = not self.id or (self.id and self.schedule != Playbook.objects.get(id=self.id).schedule)
         super().save(**kwargs)
         if self.schedule and update:
-            create_or_update_periodic_task(self, 'saltmaster.tasks.execute_playbook_task', '["{}",]'.format(self.id))
+            create_or_update_periodic_task(self, 'saltmaster.tasks.execute_playbook_task', '["{}"]'.format(self.id))
             self.save()
         elif not self.schedule and self.celery_periodic_runner and update:
             self.celery_periodic_runner.crontab.delete()
