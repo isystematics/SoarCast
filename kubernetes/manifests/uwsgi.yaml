@@ -23,7 +23,7 @@ spec:
             - name: app-config
               mountPath: /mnt/appconfig.json
               subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-8556f199616220060cd1799acc6aa82f1ba9096d-8-test # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-58e8d0c59e5b690b19744ebba41d3bea71af005d-9-test # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           imagePullPolicy: Always
           name: web
           workingDir: /app
