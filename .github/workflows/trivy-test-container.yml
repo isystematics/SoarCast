@@ -16,6 +16,8 @@ env:
   AWS_ACCOUNT_ID: "121091867024"
   AWS_ACCESS_KEY_ID: ${{ secrets.BACKEND_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKEND_AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCESS_KEY_ID_BUCKET:  ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY_BUCKET:  ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
   CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
 
 jobs:
@@ -58,3 +60,13 @@ jobs:
         image-ref: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
         format: 'json'
         output: Trivy.json
+        
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.BUCKET_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.BUCKET_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+        
+    - name: Deploy static site to S3 bucket
+      run: aws s3 cp Trivy.json s3://d-d-isystematics-librarian/Trivy.json
