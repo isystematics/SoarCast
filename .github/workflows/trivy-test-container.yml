@@ -56,8 +56,5 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
-        format: 'table'
-        exit-code: '1'
-        ignore-unfixed: true
-        vuln-type: 'os,library'
-        severity: 'CRITICAL,HIGH'
+        format: 'json'
+        output: Trivy.json
