@@ -53,7 +53,7 @@ jobs:
       with:
         image-ref: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
         format: 'json'
-        output: ./Trivy.json
+        output: /tmp/trivy.json
         
     - name: Deploy static site to S3 bucket
-      run: aws s3 cp ./Trivy.json s3://d-d-isystematics-librarian/Trivy.json
+      run: aws s3 cp /tmp/trivy.json s3://d-d-isystematics-librarian/Trivy.json
