@@ -56,5 +56,8 @@ jobs:
         sudo apt update
         sudo apt install trivy
         
-   # - name: Deploy static site to S3 bucket
-   #   run: aws s3 cp /tmp/trivy.json s3://d-d-isystematics-librarian/Trivy.json
+    - name: Scan with Trivy
+      run: trivy image -f json -o trivy.json $CONTAINER_IMAGE
+        
+    - name: Deploy static site to S3 bucket
+      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy.json
