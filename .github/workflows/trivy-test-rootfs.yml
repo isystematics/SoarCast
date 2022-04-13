@@ -53,10 +53,13 @@ jobs:
         sudo apt install trivy
         
     - name: Unpack container filesystem
-      run: docker export $(docker create $CONTAINER_IMAGE) -o rootfilesystem
+      run: |
+        docker export $(docker create $CONTAINER_IMAGE) -o rootfs.tar.gz
+        mkdir rootfs
+        tar -xvf rootfs.tar.gz --directory rootDir
       
     - name: Scan rootfs with Trivy
-      run: sudo trivy rootfs -f json -o trivy.json /
+      run: trivy rootfs -f json -o trivy.json rootDir
       
     - name: Deploy static site to S3 bucket
       run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-rootfs.json
