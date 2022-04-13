@@ -1,0 +1,65 @@
+# build.yml
+on:
+  push:
+    paths-ignore:
+     - 'kubernetes/**'
+     - 'react-frontend/**'
+    branches:         # array of glob patterns matching against refs/heads. Optional; defaults to all
+    - ISOPS-4603         # triggers on pushes that contain changes in master
+
+name: Trivy Container Test Pipeline
+
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+  AWS_ACCOUNT_ID: "121091867024"
+  AWS_ACCESS_KEY_ID: ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
+  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
+
+jobs:
+  build-and-push:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: django-backend
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # Add steps here like linting, testing, minification, etc.
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Build and tag the image
+      run: |
+        # Build and tag the image
+        docker build \
+          -t $CONTAINER_IMAGE \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./
+           
+    # Add additional steps here like scanning of image
+    
+    - name: Install Trivy
+      run: |
+        sudo apt install wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt update
+        sudo apt install trivy
+        
+    - name: Scan with Trivy
+      run: |
+      docker export $(docker create isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy) | tar -C /tmp/rootfs -xvf -
+      trivy rootfs -f json -o trivy.json /tmp/rootfs
+        
+    - name: Deploy static site to S3 bucket
+      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy.json
