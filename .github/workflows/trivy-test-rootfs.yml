@@ -59,7 +59,7 @@ jobs:
     - name: Unpack container filesystem
       run: |
         docker export $(docker create $CONTAINER_IMAGE) -o rootfs.tar.gz
-        mkdir rootfs
+        mkdir rootDir
         tar -xvf rootfs.tar.gz --directory rootDir
       
     - name: Scan rootfs with Trivy
