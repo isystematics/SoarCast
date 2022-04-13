@@ -18,7 +18,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  scan:
+  build-and-push::
     name: Scan Private Repo with Trivy
     runs-on: ubuntu-latest
     
@@ -46,7 +46,7 @@ jobs:
     - name: Scan with Trivy
       run: trivy image -f json -o trivy.json 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-ffabfdb027a3a10c32c1b0ff492434a7182cc83c-21-dev 
       
-     - name: Configure AWS credentials
+    - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
