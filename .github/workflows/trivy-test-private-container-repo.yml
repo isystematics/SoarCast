@@ -1,6 +1,7 @@
 # build.yml
 on:
-  schedule: '15 14 * * *'
+  schedule: 
+    - cron: '30 14 * * *'
 
 name: Trivy Private Repo Test Pipeline
 
