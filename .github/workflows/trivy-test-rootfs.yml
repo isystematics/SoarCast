@@ -56,10 +56,11 @@ jobs:
         sudo apt update
         sudo apt install trivy
         
-    - name: Scan with Trivy
-      run: |
-      docker export $(docker create isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy) | tar -C /tmp/rootfs -xvf -
-      trivy rootfs -f json -o trivy.json /tmp/rootfs
+    - name: Unpack Container Filesystem
+      run: docker export $(docker create isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy) | tar -C /tmp/rootfs -xvf -
+      
+    - name: Scan filesystem with Trivy
+      run: trivy rootfs -f json -o trivy.json /tmp/rootfs
         
     - name: Deploy static site to S3 bucket
       run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy.json
