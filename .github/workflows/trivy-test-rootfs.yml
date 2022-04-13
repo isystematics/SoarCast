@@ -55,9 +55,6 @@ jobs:
         echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
         sudo apt update
         sudo apt install trivy
-        
-    - name: Unpack Container Filesystem
-      run: docker run -d --name $CONTAINER_IMAGE $CONTAINER_IMAGE
       
     - name: Scan filesystem with Trivy
       run: trivy rootfs -f json -o trivy.json /tmp/rootfs
