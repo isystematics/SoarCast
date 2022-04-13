@@ -18,7 +18,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  build-and-push::
+  build-and-push:
     name: Scan Private Repo with Trivy
     runs-on: ubuntu-latest
     
