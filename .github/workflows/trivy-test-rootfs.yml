@@ -57,7 +57,7 @@ jobs:
         sudo apt install trivy
         
     - name: Unpack Container Filesystem
-      run: docker export $CONTAINER_IMAGE | tar -C /tmp/rootfs -xvf -
+      run: docker export $CONTAINER_IMAGE
       
     - name: Scan filesystem with Trivy
       run: trivy rootfs -f json -o trivy.json /tmp/rootfs
