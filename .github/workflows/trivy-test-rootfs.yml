@@ -60,7 +60,7 @@ jobs:
       run: docker export $(docker create $CONTAINER_IMAGE) -o rootfilesystem
       
     - name: Scan rootfs with Trivy
-      run: trivy rootfs -f json -o trivy.json /
+      run: sudo trivy rootfs -f json -o trivy.json /
       
     - name: Deploy static site to S3 bucket
       run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-rootfs.json
