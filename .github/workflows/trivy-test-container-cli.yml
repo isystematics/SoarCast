@@ -60,4 +60,4 @@ jobs:
       run: trivy image -f json -o trivy.json $CONTAINER_IMAGE
         
     - name: Deploy static site to S3 bucket
-      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy.json
+      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-container.json
