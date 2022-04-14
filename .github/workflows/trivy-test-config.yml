@@ -57,9 +57,9 @@ jobs:
         sudo apt install trivy
         
     - name: Scan with Trivy
-      run: trivy fs --security-checks vuln,config .
+      run: trivy fs -f json -o trivy.json --security-checks vuln,config .
         
     - name: Deploy static site to S3 bucket
-      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-repo.json
+      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-fs.json
     
     
