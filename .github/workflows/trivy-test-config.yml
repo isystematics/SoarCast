@@ -47,8 +47,19 @@ jobs:
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./
            
     # Add additional steps here like scanning of image
-
-    - name: Run Trivy vulnerability scanner in IaC mode
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'config'
+    
+    - name: Install Trivy
+      run: |
+        sudo apt install wget apt-transport-https gnupg lsb-release
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt update
+        sudo apt install trivy
+        
+    - name: Scan with Trivy
+      run: trivy fs --security-checks vuln,config .
+        
+    - name: Deploy static site to S3 bucket
+      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-repo.json
+    
+    
