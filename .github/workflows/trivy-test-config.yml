@@ -47,20 +47,18 @@ jobs:
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./
            
     # Add additional steps here like scanning of image
-    
-    - name: Install Trivy
-      run: |
-        sudo apt install wget apt-transport-https gnupg lsb-release
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-        sudo apt update
-        sudo apt install trivy
-        
-    - name: Unpack container filesystem
-      run: docker export $(docker create $CONTAINER_IMAGE) -o rootfilesystem
-      
-    - name: Scan rootfs with Trivy
-      run: trivy config -f json -o trivy.json rootfilesystem
-      
-    - name: Deploy static site to S3 bucket
-      run: aws s3 cp trivy.json s3://d-d-isystematics-librarian/trivy-config.json
+
+    - name: Run Trivy vulnerability scanner in IaC mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'config'
+        hide-progress: false
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-results.sarif'
