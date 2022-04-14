@@ -1,0 +1,64 @@
+# build.yml
+on:
+  push:
+    paths-ignore:
+     - 'kubernetes/**'
+     - 'react-frontend/**'
+    branches:         # array of glob patterns matching against refs/heads. Optional; defaults to all
+     - ISOPS-4603         # triggers on pushes that contain changes in master
+
+name: Trivy Rootfs Test Pipeline
+
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
+env:
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+  AWS_ACCOUNT_ID: "121091867024"
+  AWS_ACCESS_KEY_ID: ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
+  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-trivy
+
+jobs:
+  build-and-push:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: django-backend
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # Add steps here like linting, testing, minification, etc.
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.TRIVY_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.TRIVY_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Build and tag the image
+      run: |
+        # Build and tag the image
+        docker build \
+          -t $CONTAINER_IMAGE \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$CONTAINER_IMAGE ./
+           
+    # Add additional steps here like scanning of image
+    
+    - name: Run Trivy vulnerability scanner with rootfs command
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'rootfs'
+          scan-ref: 'rootfs-example-binary'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-results.sarif'
