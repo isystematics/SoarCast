@@ -48,7 +48,7 @@ jobs:
            
     # Add additional steps here like scanning of image
     
-     - name: Install Trivy
+    - name: Install Trivy
       run: |
         sudo apt install wget apt-transport-https gnupg lsb-release
         wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
