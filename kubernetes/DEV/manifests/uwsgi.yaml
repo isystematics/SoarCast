@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uwsgi
+  namespace: soarcast
+spec:
+  selector:
+    matchLabels:
+      app: uwsgi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: uwsgi
+    spec:
+      nodeSelector:
+        type: soarcast
+      containers:
+        - volumeMounts:
+            - name: staticfiles
+              mountPath: /app/staticfiles
+            - name: app-config
+              mountPath: /mnt/appconfig.json
+              subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-8556f199616220060cd1799acc6aa82f1ba9096d-8-test # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+          imagePullPolicy: Always
+          name: web
+          workingDir: /app
+          ports:
+            - containerPort: 8000
+      volumes:
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: soarcast-staticfiles
+        - name: app-config
+          secret:
+            secretName: app-config
