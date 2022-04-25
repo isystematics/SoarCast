@@ -201,6 +201,7 @@ class PlaybookItemForm(forms.ModelForm):
 
 class VariableForm(forms.ModelForm):
     value = forms.CharField(widget=forms.Textarea, required=False)
+    bool_values = ["True", "true", "False", "false"]
 
     class Meta:
         fields = '__all__'
@@ -218,6 +219,8 @@ class VariableForm(forms.ModelForm):
                 json.loads(value)
             except JSONDecodeError as e:
                 self._errors["value"] = self.error_class([e])
+        elif value and self.cleaned_data.get('variable_type', 1) == Variable.BOOL and value not in self.bool_values:
+                self._errors["value"] = self.error_class(['allowed values: {}'.format(", ".join(self.bool_values))])
         # value = self.cleaned_data['value']
         return self.cleaned_data
 

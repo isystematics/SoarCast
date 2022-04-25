@@ -133,6 +133,8 @@ def execute_runner(runner: Runner, run_status: RunStatus, api_data=None, need_re
             value = variable.value
         if variable and variable.variable_type == Variable.JSON:
             value = json.loads(value)
+        elif variable and variable.variable_type == Variable.BOOL:
+            value = eval(value.capitalize())
         elif variable and variable.variable_type == Variable.INT:
             value = int(value)
         variables[salt_variable_name] = value
@@ -324,6 +326,8 @@ def get_playbook_variables(playbook, function):
             value = variable.value
         if variable and variable.variable_type == Variable.JSON:
             value = json.loads(value)
+        elif variable and variable.variable_type == Variable.BOOL:
+            value = eval(value.capitalize())
         elif variable and variable.variable_type == Variable.INT:
             value = int(value)
         variables[salt_variable_name] = value
@@ -353,6 +357,8 @@ def get_condition_variables(condition, redis_variable=None):
             value = variable.value
         if variable and variable.variable_type == Variable.JSON:
             value = json.loads(value)
+        elif variable and variable.variable_type == Variable.BOOL:
+            value = eval(value.capitalize())
         elif variable and variable.variable_type == Variable.INT:
             value = int(value)
         variables[salt_variable_name] = value

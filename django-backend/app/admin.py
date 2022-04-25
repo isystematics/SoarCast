@@ -338,6 +338,7 @@ class ExecutionAdmin(admin.ModelAdmin):
                     'last_changes', 'created')
     fields = ('playbook', 'function', 'status', 'run', 'message', 'last_changes', 'created', 'read_variable_name',
               'write_variable_name')
+    list_filter = ('playbook', )
     exclude = ('celery_periodic_runner',)
     actions = (stop_tasks,)
     readonly_fields = ('read_variable_name_value', 'write_variable_name_value',)
