@@ -15,44 +15,44 @@ spec:
       labels:
         app: uwsgi
     spec:
-      nodeSelector: 
+      nodeSelector:
         type: soarcast
       affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - web
+                  - key: app
+                    operator: In
+                    values:
+                      - web
               topologyKey: "kubernetes.io/hostname"
-          podAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - nginx
+                  - key: app
+                    operator: In
+                    values:
+                      - nginx
               topologyKey: "kubernetes.io/hostname"
       containers:
         - volumeMounts:
-          - name: staticfiles
-            mountPath: /app/staticfiles
-          - name: app-config
-            mountPath: /mnt/appconfig.json
-            subPath: appconfig.json
-          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-5dcd407b822748cbf724c0e4b7a06a8a1a2216c6-25-dev # {"$imagepolicy": "flux-system:soarcast-image-policy"}
+            - name: staticfiles
+              mountPath: /app/staticfiles
+            - name: app-config
+              mountPath: /mnt/appconfig.json
+              subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-453e082ebc93cfbcf36eafec7fd6b1aa47b6370c-3-prod # {"$imagepolicy": "flux-system:soarcast-image-policy"}
           imagePullPolicy: Always
           name: web
           workingDir: /app
           ports:
             - containerPort: 8000
       volumes:
-      - name: staticfiles
-        persistentVolumeClaim:
-          claimName: soarcast-staticfiles
-      - name: app-config
-        secret:
-          secretName: app-config
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: soarcast-staticfiles
+        - name: app-config
+          secret:
+            secretName: app-config
