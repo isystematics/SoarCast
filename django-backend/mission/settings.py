@@ -14,14 +14,20 @@ import os
 from pathlib import Path
 import sys
 import json
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.celery import CeleryIntegration
+
+path = '/mnt/appconfig.json'
+if os.path.exists(path):
+    with open(path) as f:
+        app_config = json.load(f)
+        for key in app_config:
+            os.environ[key] = str(app_config[key])
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-soarcast_config = json.loads(os.environ.get('SoarcastConfig'))
-
-for key in soarcast_config:
-    os.environ[key] = soarcast_config[key]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -30,6 +36,15 @@ SECRET_KEY = '!mc2c_)nstii!k+5o8wki4qg_o76%h8s%vp_)z4*lpe((4st-x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG', 'false').lower() in ('1', 'true') else False
+
+SENTRY_KEY = os.environ.get('SENTRY_KEY', "https://c152871c4b9c4c2288e66772566d1691@o287643.ingest.sentry.io/6252845")
+
+SENTRY_ENABLED = True if os.environ.get('SENTRY_ENABLED', 'true').lower() in ('1', 'true') else False
+if SENTRY_ENABLED:
+    sentry_sdk.init(
+        SENTRY_KEY,
+        integrations=[DjangoIntegration(), CeleryIntegration(), ]
+    )
 
 ALLOWED_HOSTS = ['*']
 
