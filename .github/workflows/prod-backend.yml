@@ -16,7 +16,7 @@ env:
   AWS_ACCOUNT_ID: "121091867024"
   AWS_ACCESS_KEY_ID: ${{ secrets.BACKEND_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKEND_AWS_SECRET_ACCESS_KEY }}
-  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-dev
+  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-prod
 
 jobs:
   build-and-push:
