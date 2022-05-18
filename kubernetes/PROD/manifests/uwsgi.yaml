@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uwsgi
+  namespace: soarcast
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: uwsgi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: uwsgi
+    spec:
+      nodeSelector: 
+        type: soarcast
+      affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - web
+              topologyKey: "kubernetes.io/hostname"
+          podAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - nginx
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - volumeMounts:
+          - name: staticfiles
+            mountPath: /app/staticfiles
+          - name: app-config
+            mountPath: /mnt/appconfig.json
+            subPath: appconfig.json
+          image: 121091867024.dkr.ecr.us-east-1.amazonaws.com/isystematics:soarcast-5dcd407b822748cbf724c0e4b7a06a8a1a2216c6-25-dev
+          imagePullPolicy: Always
+          name: web
+          workingDir: /app
+          ports:
+            - containerPort: 8000
+      volumes:
+      - name: staticfiles
+        persistentVolumeClaim:
+          claimName: soarcast-staticfiles
+      - name: app-config
+        secret:
+          secretName: app-config
