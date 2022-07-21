@@ -115,8 +115,8 @@ def update_salt_masters_minions():
 def sync_module(salt_master_id, minion_id=None):
     salt_master = SaltMasterConfig.objects.get(id=salt_master_id)
     salt_sync_module(salt_master, minion_id)
-    salt_update_module_permissions(salt_master, minion_id)
-    read_modules_from_disk()
+    # salt_update_module_permissions(salt_master, minion_id)
+    # read_modules_from_disk()
 
 
 @app.task

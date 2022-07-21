@@ -12,7 +12,7 @@ from app.utils import get_redis_connection
 from mission.celery import app
 from saltmaster.models import Minion, SaltMasterConfig, ModulesRepo
 from saltmaster.serializers import SaltMasterSerializer, MinionSerializer, ModulesRepoSerializer
-from saltmaster.tasks import update_minion_and_status, sync_git_modules, sync_git_module
+from saltmaster.tasks import update_minion_and_status, sync_git_modules, sync_git_module, sync_module
 from saltmaster.utils import manage_key
 
 
@@ -22,6 +22,16 @@ class ManageKeyView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         minion = get_object_or_404(Minion, pk=kwargs.get('minion_id'))
         manage_key(minion, kwargs.get('operation'))
+        return self.request.META.get('HTTP_REFERER', '/')
+
+
+class SyncModuleView(RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        salt_id = kwargs.get('salt_id')
+        minion = get_object_or_404(Minion, pk=kwargs.get('minion_id'))
+        sync_module.apply_async(args=[salt_id, minion.id])
         return self.request.META.get('HTTP_REFERER', '/')
 
 
