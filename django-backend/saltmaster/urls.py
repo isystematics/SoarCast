@@ -8,5 +8,5 @@ from .views import (
 urlpatterns = [
     path('manage-key/<int:minion_id>/<str:operation>/', ManageKeyView.as_view(), name='manage-key'),
     path('redis-key-value/<path:key>/', KeyValue.as_view(), name='redis-key-value'),
-    path('sync-module/<int:minion_id>/', SyncModuleView.as_view(), name='sync-module'),
+    path('sync-module/<int:salt_id>/<int:minion_id>/', SyncModuleView.as_view(), name='sync-module'),
 ]

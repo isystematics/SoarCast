@@ -29,8 +29,9 @@ class SyncModuleView(RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
+        salt_id = kwargs.get('salt_id')
         minion = get_object_or_404(Minion, pk=kwargs.get('minion_id'))
-        sync_module.apply_async(args=[minion.salt.id, minion.id])
+        sync_module.apply_async(args=[salt_id, minion.id])
         return self.request.META.get('HTTP_REFERER', '/')
 
 

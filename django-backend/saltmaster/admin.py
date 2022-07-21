@@ -14,7 +14,7 @@ class MinionsInline(admin.TabularInline):
 
     def sync_module(self, obj):
         if obj.id and obj.status != Minion.DISCONNECTED:
-            url = reverse('sync-module', args=(obj.id,))
+            url = reverse('sync-module', args=(obj.salt.id, obj.id,))
             return mark_safe('<a href="{}">Sync Module</a>'.format(url))
         else:
             return ''
