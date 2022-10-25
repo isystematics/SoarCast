@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+    pgdb:
+        image: postgres
+        env_file:
+            - env
+        environment:
+            - PGDATA=/var/lib/postgresql/data
+        volumes:
+            - pgdb:/var/lib/postgresql/data:rw
+            - ./dump:/dump
+        ports:
+            - '0.0.0.0:5432:5432'
+        restart: always
+
+    web:
+        depends_on:
+            - pgdb
+            - redis
+            - vault
+        env_file:
+            - env
+        build:
+            context: ./
+        links:
+            - pgdb
+            - redis
+            - vault
+        volumes:
+            - ./:/app
+            - staticfiles:/app/staticfiles
+        restart: always
+        ports:
+            - "8000:8000"
+
+    nginx:
+        build:
+            context: ./nginx
+        links:
+            - web
+        depends_on:
+            - web
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - staticfiles:/staticfiles
+        ports:
+            - "80:80"
+        restart: always
+
+    vault:
+        build:
+            context: ./vault
+        environment:
+            - VAULT_ADDR=http://0.0.0.0:8200
+        command: vault server -config=/vault-config/docker.hcl
+        volumes:
+            - ./docker-vault/file:/vault/file:rw
+            - ./docker-vault/config:/vault/config:rw
+        ports:
+            - "8200:8200"
+        restart: always
+
+    redis:
+        image: redis:6.2.4-buster
+        volumes:
+            - redis:/data:rw
+        env_file:
+            - env
+        restart: always
+
+    celery_worker:
+        build:
+            context: ./
+        volumes:
+            - ./:/app
+        env_file:
+            - env
+        environment:
+            - DJANGO_SETTINGS_MODULE=mission.settings
+        entrypoint: ["celery", "-A", "mission", "worker", "--loglevel=INFO"]
+        depends_on:
+            - pgdb
+            - redis
+        restart: always
+
+    celery_beat:
+        build:
+            context: ./
+        volumes:
+            - ./:/app
+        env_file:
+            - env
+        environment:
+            - DJANGO_SETTINGS_MODULE=mission.settings
+        entrypoint: [ "celery", "-A", "mission", "beat", "--loglevel=INFO" ]
+        depends_on:
+            - pgdb
+            - redis
+        restart: always
+
+
+volumes:
+    staticfiles:
+    pgdb:
+        driver: local
+    redis:
+        driver: local

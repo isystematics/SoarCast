@@ -5,9 +5,9 @@ on:
      - 'kubernetes/**'
      - 'react-frontend/**'
     branches:         # array of glob patterns matching against refs/heads. Optional; defaults to all
-    - development         # triggers on pushes that contain changes in master
+    - main        # triggers on pushes that contain changes in master
 
-name: SoarCast Dev Backend Pipeline
+name: SoarCast Prod Backend Pipeline
 
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html
 env:
@@ -16,7 +16,7 @@ env:
   AWS_ACCOUNT_ID: "121091867024"
   AWS_ACCESS_KEY_ID: ${{ secrets.BACKEND_AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKEND_AWS_SECRET_ACCESS_KEY }}
-  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-dev
+  CONTAINER_IMAGE: isystematics:soarcast-${{ github.sha }}-${{ github.run_number }}-prod
 
 jobs:
   build-and-push:

@@ -7,7 +7,7 @@ import { SnackbarProvider } from 'notistack';
 
 import store from "./store"
 import axios from 'axios'
-axios.defaults.baseURL = 'https://api.test.soarcast.io'
+axios.defaults.baseURL = 'https://api.soarcast.io'
 
 const app = (
   <Provider store={store}>
