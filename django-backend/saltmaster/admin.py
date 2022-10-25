@@ -9,8 +9,15 @@ from .forms import *
 
 class MinionsInline(admin.TabularInline):
     model = Minion
-    readonly_fields = ('name', 'status', 'last_ping', 'last_ping_date', 'auth_key', 'reject_key')
+    readonly_fields = ('name', 'status', 'last_ping', 'last_ping_date', 'sync_module', 'auth_key', 'reject_key')
     extra = 0
+
+    def sync_module(self, obj):
+        if obj.id and obj.status != Minion.DISCONNECTED:
+            url = reverse('sync-module', args=(obj.salt.id, obj.id,))
+            return mark_safe('<a href="{}">Sync Module</a>'.format(url))
+        else:
+            return ''
 
     def auth_key(self, obj):
         if obj.id and obj.status != Minion.DISCONNECTED:
