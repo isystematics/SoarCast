@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 
 services:
     pgdb:
@@ -15,11 +15,10 @@ services:
         restart: always
 
     web:
-        image:
-            isystematics/soarcast_web:latest
         depends_on:
             - pgdb
             - redis
+            - vault
         env_file:
             - env
         build:
@@ -27,19 +26,20 @@ services:
         links:
             - pgdb
             - redis
+            - vault
         volumes:
             - ./:/app
-            - staticfiles:/staticfiles
+            - staticfiles:/app/staticfiles
         restart: always
         ports:
             - "8000:8000"
 
     nginx:
-        image:
-            isystematics/soarcast_nginx:latest
         build:
             context: ./nginx
         links:
+            - web
+        depends_on:
             - web
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -53,19 +53,12 @@ services:
             context: ./vault
         environment:
             - VAULT_ADDR=http://0.0.0.0:8200
-            - VAULT_API_ADDR=http://127.0.0.1:8200
-        links:
-            - web
-        command: server -config=/vault/config/vault-config.json
+        command: vault server -config=/vault-config/docker.hcl
         volumes:
-            - ./vault/config:/vault/config:rw
-            - ./vault/policies:/vault/policies:rw
-            - ./vault/data:/vault/data:rw
-            - ./vault/logs:/vault/logs:rw
+            - ./docker-vault/file:/vault/file:rw
+            - ./docker-vault/config:/vault/config:rw
         ports:
             - "8200:8200"
-        cap_add:
-            - IPC_LOCK
         restart: always
 
     redis:
@@ -77,8 +70,6 @@ services:
         restart: always
 
     celery_worker:
-        image:
-            isystematics/soarcast_celery_worker:latest
         build:
             context: ./
         volumes:
@@ -87,15 +78,13 @@ services:
             - env
         environment:
             - DJANGO_SETTINGS_MODULE=mission.settings
-        entrypoint: ["celery", "-A", "mission", "worker", "--loglevel=INFO", "--pidfile="]
+        entrypoint: ["celery", "-A", "mission", "worker", "--loglevel=INFO"]
         depends_on:
             - pgdb
             - redis
         restart: always
 
     celery_beat:
-        image:
-            isystematics/soarcast_celery_beat:latest
         build:
             context: ./
         volumes:
@@ -104,12 +93,11 @@ services:
             - env
         environment:
             - DJANGO_SETTINGS_MODULE=mission.settings
-        entrypoint: [ "celery", "-A", "mission", "beat", "--loglevel=INFO", "--pidfile="]
+        entrypoint: [ "celery", "-A", "mission", "beat", "--loglevel=INFO" ]
         depends_on:
             - pgdb
             - redis
         restart: always
-    
 
 
 volumes:
